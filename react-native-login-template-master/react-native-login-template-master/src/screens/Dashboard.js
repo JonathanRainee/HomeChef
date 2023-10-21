@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -6,18 +6,45 @@ import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
 import { NavigationProp } from '@react-navigation/native'
 import { FIREBASE_AUTH } from '../../firebase'
+import Card  from '../components/Card'
+import { View } from 'react-native'
+import { collection, getDocs, query } from "firebase/firestore";
+import { FIREBASE_DB } from '../../firebase'
 
 export default function Dashboard({ navigation }) {
+
+  const [food, setfood] = useState([])
+
+  const getAllFood = async () => {
+    const q = query(collection(FIREBASE_DB, 'Foods'))
+    let res = await getDocs(q)
+    let arr = []
+    res.forEach((e) => {
+      // console.log(e.);
+      arr.push(e)
+    })
+    setfood(arr)
+  }
+
+  useEffect(() => {
+    getAllFood()
+  }, [])
+
+
   return (
-    <Background>
-      <Logo />
-      <Header>Home Chef</Header>
-      <Paragraph>
-        Home Chef's home page
-      </Paragraph>
-      <Button mode="outlined" onPress={()=>FIREBASE_AUTH.signOut()}>
-        Logout
-      </Button>
-    </Background>
+    <View>
+      {
+        food.map((f)=>{
+          return(
+            <Card key={f.id} name={f.data().name} price={f.data().price} imageSource={f.data().image} />
+          )
+        })
+      }
+    </View>
+    // <Background>
+    //   <Button mode="outlined" onPress={()=>FIREBASE_AUTH.signOut()}>
+    //     Logout
+    //   </Button>
+    // </Background>
   )
 }

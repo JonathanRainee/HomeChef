@@ -10,12 +10,11 @@ import {
   ResetPasswordScreen,
   Dashboard,
 } from './src/screens'
-import { User, onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from './firebase'
 
 const Stack = createStackNavigator()
 const ProtectedStack = createStackNavigator()
-
 
 function ProtectedLayout(){
   return(
@@ -26,29 +25,44 @@ function ProtectedLayout(){
 }
 
 export default function App() {
+
   const [user, setuser] = useState(null)
 
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      setuser(user)
+      if(user){
+        console.log(user);
+        setuser(user)
+      }else{
+        setuser(null)
+      }
     })
+    return () => unsubscribe();
   }, [])
-  
 
   return (
     <Provider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="StartScreen" screenOptions={{headerShown: false}}>
+        <Stack.Navigator
+          initialRouteName={user ? 'Dashboard' : 'StartScreen'}
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
           {
             user ? (
               <Stack.Screen name="Dashboard" component={ProtectedLayout}/>
-            ) : (
-              <Stack.Screen name="StartScreen" component={StartScreen}/>
-            )
-          }
-            <Stack.Screen name="LoginScreen" component={LoginScreen}/>
-            <Stack.Screen name="RegisterScreen" component={RegisterScreen}/>
-            <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen}/>
+              ) : (
+                <Stack.Screen name="StartScreen" component={StartScreen}/>
+                )
+              }
+          {/* <Stack.Screen name="Dashboard" component={ProtectedLayout}/> */}
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen
+            name="ResetPasswordScreen"
+            component={ResetPasswordScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

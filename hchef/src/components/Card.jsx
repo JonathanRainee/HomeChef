@@ -2,22 +2,45 @@ import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FIREBASE_AUTH } from '../../firebase';
+import { FIREBASE_DB } from '../../firebase';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
+const Card = ({ name, price, imageSource, onAddToCart, id, desc }) => {
 
-const Card = ({ name, price, imageSource, onAddToCart  }) => {
+  const data = {
+    name,
+    price, 
+    imageSource,
+    id,
+    desc
+  }
 
   const navigation = useNavigation();
   const currUser = FIREBASE_AUTH.currentUser
+  const db = FIREBASE_DB
 
-  const addToCart = () => {
-    console.log(currUser);
+  const goToDetail = () => {
+    console.log("lololll");
+    navigation.navigate('detail', { data })
+  }
+
+  const addToCart = async () => {
+    console.log(currUser.uid);
+    await addDoc(collection(db, 'users', currUser.uid, 'cart'), {
+      quantity: 100,
+      name: name,
+      price: 1*price,
+      imageSource: imageSource,
+    })
   }
 
   return (
     <View style={styles.card}>
-      <Image source={imageSource} style={styles.image} />
-      <Text style={styles.name}>{name}</Text>
-      <Text style={styles.price}>Rp. {price} / 100g</Text>
+      <TouchableOpacity onPress={goToDetail}>
+        <Image source={imageSource} style={styles.image} />
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.price}>Rp. {price} / 100g</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={addToCart} style={styles.addToCartButton}>
         <Text style={styles.addToCartButtonText}>Add to Cart</Text>
       </TouchableOpacity>

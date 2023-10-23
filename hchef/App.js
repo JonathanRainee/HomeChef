@@ -12,6 +12,7 @@ import {
 } from './src/screens'
 import { onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from './firebase'
+import { Detail } from './src/screens/Detail'
 
 const Stack = createStackNavigator()
 const ProtectedStack = createStackNavigator()
@@ -37,7 +38,7 @@ export default function App() {
         setuser(null)
       }
     })
-    return () => unsubscribe();
+    // return () => unsubscribe();
   }, [])
 
   return (
@@ -57,6 +58,7 @@ export default function App() {
                 )
               }
           {/* <Stack.Screen name="Dashboard" component={ProtectedLayout}/> */}
+          <Stack.Screen name='detail' component={Detail}/>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen

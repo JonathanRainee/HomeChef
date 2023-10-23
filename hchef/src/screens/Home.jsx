@@ -20,8 +20,8 @@ export default function Home({ navigation }) {
     let res = await getDocs(q)
     let arr = []
     res.forEach((e) => {
-      // console.log(e.);
       arr.push(e)
+      console.log(e.data().description);
     })
     setfood(arr)
   }
@@ -36,7 +36,7 @@ export default function Home({ navigation }) {
       {
         food.map((f)=>{
           return(
-            <Card key={f.id} name={f.data().name} price={f.data().price} imageSource={f.data().image} />
+            <Card key={f.id} id={f.id} name={f.data().name} price={f.data().price} imageSource={f.data().image} desc={f.data().description} />
           )
         })
       }

@@ -41,7 +41,7 @@ export const Detail = ({ route, navigation }) => {
       name: data.data.name,
       price: quantity*data.data.price,
       imageSource: data.data.imageSource,
-      description: data.data.description
+      description: data.data.desc
     })
     navigation.navigate('home')
   }

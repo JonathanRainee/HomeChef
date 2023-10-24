@@ -5,7 +5,7 @@ import { FIREBASE_AUTH } from '../../firebase';
 import { FIREBASE_DB } from '../../firebase';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
-const Card = ({ name, price, imageSource, onAddToCart, id, desc }) => {
+const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc }) => {
 
   const data = {
     name,
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+export default FoodComponent;

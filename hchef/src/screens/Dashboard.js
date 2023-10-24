@@ -6,13 +6,14 @@ import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
 import { NavigationProp } from '@react-navigation/native'
 import { FIREBASE_AUTH } from '../../firebase'
-import Card  from '../components/Card'
+import FoodComponent  from '../components/FoodComponent'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { collection, getDocs, query } from "firebase/firestore";
 import { FIREBASE_DB } from '../../firebase'
 import Home from './Home'
 import { Tabs } from '../components/Tabs'
 import { Order } from './Order'
+import { Cart } from './Cart'
 
 export default function Dashboard({ navigation }) {
 
@@ -30,7 +31,7 @@ export default function Dashboard({ navigation }) {
           <Text style={activeTab === 'Home' ? styles.activeTabText : styles.tabText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleTabPress('Order')} style={[styles.tab, activeTab === 'Order' ? styles.activeTab : null]}>
-          <Text style={activeTab === 'Order' ? styles.activeTabText : styles.tabText}>ORder</Text>
+          <Text style={activeTab === 'Order' ? styles.activeTabText : styles.tabText}>Cart</Text>
         </TouchableOpacity>
       </View>
     );
@@ -40,7 +41,7 @@ export default function Dashboard({ navigation }) {
     if (activeTab === 'Home') {
       return <Home />;
     } else if (activeTab === 'Order') {
-      return <Order />;
+      return <Cart />;
     }
   };
 

@@ -6,7 +6,7 @@ import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
 import { NavigationProp } from '@react-navigation/native'
 import { FIREBASE_AUTH } from '../../firebase'
-import Card  from '../components/Card'
+import FoodComponent  from '../components/FoodComponent'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { collection, getDocs, query } from "firebase/firestore";
 import { FIREBASE_DB } from '../../firebase'
@@ -21,7 +21,6 @@ export default function Home({ navigation }) {
     let arr = []
     res.forEach((e) => {
       arr.push(e)
-      console.log(e.data().description);
     })
     setfood(arr)
   }
@@ -36,7 +35,7 @@ export default function Home({ navigation }) {
       {
         food.map((f)=>{
           return(
-            <Card key={f.id} id={f.id} name={f.data().name} price={f.data().price} imageSource={f.data().image} desc={f.data().description} />
+            <FoodComponent key={f.id} id={f.id} name={f.data().name} price={f.data().price} imageSource={f.data().image} desc={f.data().description} />
           )
         })
       }

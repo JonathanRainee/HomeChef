@@ -20,12 +20,10 @@ const Card = ({ name, price, imageSource, onAddToCart, id, desc }) => {
   const db = FIREBASE_DB
 
   const goToDetail = () => {
-    console.log("lololll");
     navigation.navigate('detail', { data })
   }
 
   const addToCart = async () => {
-    console.log(currUser.uid);
     await addDoc(collection(db, 'users', currUser.uid, 'cart'), {
       quantity: 100,
       name: name,

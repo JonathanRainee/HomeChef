@@ -38,7 +38,6 @@ export default function App() {
         setuser(null)
       }
     })
-    // return () => unsubscribe();
   }, [])
 
   return (
@@ -58,7 +57,7 @@ export default function App() {
                 )
               }
           {/* <Stack.Screen name="Dashboard" component={ProtectedLayout}/> */}
-          <Stack.Screen name='detail' component={Detail}/>
+          <Stack.Screen name='detail' component={Detail} options={{title: 'Add', headerShown: true}}/>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen

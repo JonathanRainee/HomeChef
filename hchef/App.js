@@ -32,7 +32,6 @@ export default function App() {
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
       if(user){
-        console.log(user);
         setuser(user)
       }else{
         setuser(null)

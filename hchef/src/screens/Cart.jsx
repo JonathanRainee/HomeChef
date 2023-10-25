@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View, Text, Image, TextInput, Button, StyleSheet, Animated, Easing } from 'react-native'
 import { FIREBASE_AUTH } from '../../firebase';
 import { FIREBASE_DB } from '../../firebase';
-import { addDoc, collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, onSnapshot, query, setDoc } from 'firebase/firestore';
 import { CartComponent } from '../components/CartComponent';
 
 export const Cart = () => {
@@ -11,28 +11,31 @@ export const Cart = () => {
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
 
-  const getCart = async () => {
-    const q = query(collection(FIREBASE_DB, 'users', currUser.uid, "cart"))
-    let res = await getDocs(q)
-    let arr = []
-    res.forEach((e) => {
-      arr.push(e)
-      // console.log(e.data());
-    })
-    setCart(arr)
-  }
-
   useEffect(()=>{
-    getCart()
-  }, [])
+    const q = query(collection(FIREBASE_DB, 'users', currUser.uid, 'cart'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const arr = [];
+      snapshot.docs.forEach((doc) => {
+        arr.push({
+          ...doc.data(),
+          id: doc.id,
+        });
+      });
+      setCart(arr);
+    });
 
+    return () => {
+      unsubscribe();
+    };
+  }, [])
+  
+  console.log(cart);
   return (
     <View>
       {
         cart.map((e)=>{
-          console.log(e.data());
           return(
-            <CartComponent key = {e.id} item = {e.data()} />
+            <CartComponent key = {e.id} item = {e} />
           )
         })
       }

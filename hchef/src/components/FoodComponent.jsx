@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     marginTop: 10,
+    backgroundColor: '#4ebf5d'
   },
   addToCartButtonText: {
     color: 'white',

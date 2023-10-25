@@ -14,6 +14,7 @@ import Home from './Home'
 import { Tabs } from '../components/Tabs'
 import { Order } from './Order'
 import { Cart } from './Cart'
+import { Profile } from './Profile'
 
 export default function Dashboard({ navigation }) {
 
@@ -33,6 +34,9 @@ export default function Dashboard({ navigation }) {
         <TouchableOpacity onPress={() => handleTabPress('Order')} style={[styles.tab, activeTab === 'Order' ? styles.activeTab : null]}>
           <Text style={activeTab === 'Order' ? styles.activeTabText : styles.tabText}>Cart</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleTabPress('Profile')} style={[styles.tab, activeTab === 'Profile' ? styles.activeTab : null]}>
+          <Text style={activeTab === 'Profile' ? styles.activeTabText : styles.tabText}>Profile</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -42,7 +46,9 @@ export default function Dashboard({ navigation }) {
       return <Home />;
     } else if (activeTab === 'Order') {
       return <Cart />;
-    }
+    } else if (activeTab === 'Profile') {
+      return <Profile />;
+    } 
   };
 
   return (

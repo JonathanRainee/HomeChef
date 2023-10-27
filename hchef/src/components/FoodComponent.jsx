@@ -37,7 +37,7 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc }) => {
       <TouchableOpacity onPress={goToDetail}>
         <Image source={imageSource} style={styles.image} />
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.price}>Rp. {price} / 100g</Text>
+        <Text style={styles.price}>Rp. {price}/g</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={addToCart} style={styles.addToCartButton}>
         <Text style={styles.addToCartButtonText}>Add to Cart</Text>

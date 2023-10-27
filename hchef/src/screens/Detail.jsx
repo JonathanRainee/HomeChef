@@ -57,7 +57,7 @@ export const Detail = ({ route, navigation }) => {
         <Image source={data.data.imageSource} style={styles.image} />
         <Text style={styles.title}>{data.data.name}</Text>
         <Text style={styles.description}>{data.data.desc}</Text>
-        <Text style={styles.price}>Rp{data.data.price} / 100g</Text>
+        <Text style={styles.price}>Rp{data.data.price}/g</Text>
 
         <View style={styles.quantityContainer}>
           <Text style={styles.quantityLabel}>Quantity:</Text>

@@ -1,14 +1,14 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native';
 
-export const CheckoutComponent = () => {
-  const total = quantity * price;
+export const CheckoutComponent = ({ data }) => {
+  const price = data.price / data.quantity
 
   return (
     <View style={styles.cardContainer}>
-      <Text style={styles.foodName}>{foodName}</Text>
+      <Text style={styles.foodName}>{data.name}</Text>
       <Text style={styles.quantityPrice}>
-        {quantity} x Rp. {price} = Rp. {total}
+        {data.quantity} x Rp. {price} = Rp. {data.price}
       </Text>
     </View>
   );
@@ -16,11 +16,8 @@ export const CheckoutComponent = () => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10,
     padding: 10,
-    margin: 10,
+    margin: 2,
   },
   foodName: {
     fontSize: 16,

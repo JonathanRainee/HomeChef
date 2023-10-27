@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View, ScrollView, Text, Image, TextInput, Button, StyleSheet, Animated, Easing } from 'react-native'
 import { FIREBASE_AUTH } from '../../firebase';
 import { FIREBASE_DB } from '../../firebase';
+import { useNavigation } from '@react-navigation/native';
 import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc } from 'firebase/firestore';
 import { CartComponent } from '../components/CartComponent';
 
@@ -11,18 +12,22 @@ export const Cart = () => {
   const [ total, setTotal ] = useState(0)
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
+  const navigation = useNavigation();
 
   const handleItemDelete = async (itemId, itemPrice) => {
     await deleteDoc(doc(FIREBASE_DB, 'users', currUser.uid, 'cart', itemId));
     setTotal(total - itemPrice);
   };
 
+  const goToCheckout = () => {
+    navigation.navigate('Checkout')
+  }
+
   useEffect(()=>{
     const q = query(collection(FIREBASE_DB, 'users', currUser.uid, 'cart'));
-    let ttl = 0
-    setTotal(0)
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const arr = [];
+      let ttl = 0
       snapshot.docs.forEach((doc) => {
         arr.push({
           ...doc.data(),
@@ -51,7 +56,7 @@ export const Cart = () => {
           <Text style={styles.totalText}>Your cart items: {cart.length}</Text>
           <Text style={styles.totalText}>Your total: <Text style={styles.boldText}>Rp.{total}</Text></Text>
         </View>
-        <TouchableOpacity style={styles.buttonStyle}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={goToCheckout}>
           <Text>Checkout</Text>
         </TouchableOpacity>
       </View>

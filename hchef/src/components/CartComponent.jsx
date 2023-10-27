@@ -10,11 +10,6 @@ export const CartComponent = ({ item, onDelete  }) => {
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
 
-  const deleteCart = async () => {
-    const ref = doc(FIREBASE_DB, 'users', currUser.uid, 'cart', id)
-    await deleteDoc(doc(FIREBASE_DB, 'users', currUser.uid, 'cart', id))
-  }
-
   const handleDelete = () => {
     onDelete(id, price);
   };

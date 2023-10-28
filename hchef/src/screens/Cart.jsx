@@ -56,7 +56,8 @@ export const Cart = () => {
           <Text style={styles.totalText}>Your cart items: {cart.length}</Text>
           <Text style={styles.totalText}>Your total: <Text style={styles.boldText}>Rp.{total}</Text></Text>
         </View>
-        <TouchableOpacity style={styles.buttonStyle} onPress={goToCheckout}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={goToCheckout
+        }>
           <Text>Checkout</Text>
         </TouchableOpacity>
       </View>
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
   },
   section: {
     position: 'sticky',
-    bottom: 0,
+    bottom: 15,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     backgroundColor: 'white',

@@ -27,7 +27,7 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc }) => {
     await addDoc(collection(db, 'users', currUser.uid, 'cart'), {
       quantity: 100,
       name: name,
-      price: 1*price,
+      price: 100*price,
       imageSource: imageSource,
     })
   }

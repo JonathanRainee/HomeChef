@@ -76,9 +76,6 @@ export const Detail = ({ route, navigation }) => {
         />
       </Animated.View>
     </View>
-  // <TouchableOpacity onPress={() => navigation.goBack()}>
-  //   <Text>Go Back</Text>
-  // </TouchableOpacity>
   )
 }
 

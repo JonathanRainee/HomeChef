@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   buttonStyle: {
-    flex: 1, // Make the button fill the available horizontal space
+    flex: 1, 
     backgroundColor: '#4ebf5d',
     padding: 10,
     margin: 10,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonStyle2: {
-    flex: 1, // Make the button fill the available horizontal space
+    flex: 1,
     backgroundColor: '#4ebf5d',
     padding: 10,
     margin: 10,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   ddContainer: {
-    flex: 1, // Make the container fill the screen horizontally
+    flex: 1, 
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
@@ -116,24 +116,22 @@ const styles = StyleSheet.create({
     bottom: 5,
   },
   dropdownPicker: {
-    width: '100%', // Make the dropdown picker fill the screen horizontally
+    width: '100%',
   },
   dropdownContainer: {
-    width: '100%', // Make the dropdown container (the list) fill the screen horizontally
+    width: '100%', 
   },
   selectContainer: {
-    borderRadius: 10, // Custom border radius for the select
-    borderWidth: 1, // Custom border width
-    borderColor: '#4ebf5d', // Custom border color
-    backgroundColor: 'white', // Custom background color
+    borderRadius: 10,
+    borderWidth: 1, 
+    borderColor: '#4ebf5d', 
+    backgroundColor: 'white', 
     padding: 10,
-    // You can add more custom styles here
   },
   dropDownStyle: {
-    borderRadius: 10, // Style for the select item container (dropdown list)
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: '#4ebf5d',
     backgroundColor: 'white',
-    // You can add more custom styles here
   },
 });

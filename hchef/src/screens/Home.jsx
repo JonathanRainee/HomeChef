@@ -41,10 +41,5 @@ export default function Home({ navigation }) {
         })
       }
     </View>
-    // <Background>
-    //   <Button mode="outlined" onPress={()=>FIREBASE_AUTH.signOut()}>
-    //     Logout
-    //   </Button>
-    // </Background>
   )
 }

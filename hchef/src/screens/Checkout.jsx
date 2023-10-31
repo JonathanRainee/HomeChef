@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase'
 import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc } from 'firebase/firestore';
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { CheckoutComponent } from '../components/CheckoutComponent';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export const Checkout = () => {
-
-  const [ allFalse, setAllFalse ] = useState(false)
+  const [selectedValue, setSelectedValue] = useState("");
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     {label: 'Cash', value: 'Cash'},
     {label: 'Credit', value: 'Credit'},
     {label: 'OVO', value: 'OVO'},
-    {label: 'Go-Pay', value: 'Go-Pay'},
   ]);
-
   const [ cart ,setCart ] = useState([])
-  const [ total, setTotal ] = useState(0)
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
 
@@ -36,7 +32,6 @@ export const Checkout = () => {
     getCart()
   }, [])
 
-
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -44,29 +39,30 @@ export const Checkout = () => {
           return <CheckoutComponent key={c.id} data={c.data()} />;
         })}
       </ScrollView>
+      <View style={styles.ddContainer}>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          setValue={setValue}
+          setItems={setItems}
+          defaultValue={selectedValue}
+          ArrowDownIconComponent={({ setAllFalse }) => <></>}
+          ArrowUpIconComponent={({ setAllFalse }) => <></>}
+          icon={null}
+          placeholder = "Payment method"
+          style={styles.dropdownPicker}
+          dropDownContainerStyle={styles.dropdownContainer}
+          containerStyle={styles.selectContainer}
+          placeholderStyle={styles.placeholderStyle}
+          itemStyle={styles.itemStyle}
+          dropDownStyle={styles.dropDown}
+          onChangeItem={(item) => setSelectedValue(item.value)}
+        />
+      </View>
       <View style={styles.section}>
-        <View style={styles.ddContainer}>
-          <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            style={styles.dropdownPicker}
-            dropDownContainerStyle={styles.dropdownContainer}
-            ArrowDownIconComponent={({ setAllFalse }) => <></>}
-            placeholder = "Payment method"
-            containerStyle={styles.selectContainer}
-            dropdownStyles={{
-              backgroundColor: "#4ebf5d",
-              position: "absolute",
-              top: 40,
-              width: "100%",
-              zIndex: 999,
-            }}
-          />
-        </View>
         <TouchableOpacity style={styles.buttonStyle}>
           <Text style={styles.buttonText}>Checkout</Text>
         </TouchableOpacity>
@@ -108,11 +104,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   ddContainer: {
-    flex: 1, 
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    margin: 10,
+    marginHorizontal: 20,
     bottom: 5,
   },
   dropdownPicker: {
@@ -126,7 +118,8 @@ const styles = StyleSheet.create({
     borderWidth: 1, 
     borderColor: '#4ebf5d', 
     backgroundColor: 'white', 
-    padding: 10,
+    paddingVertical: 10,
+    
   },
   dropDownStyle: {
     borderRadius: 10,
@@ -134,4 +127,23 @@ const styles = StyleSheet.create({
     borderColor: '#4ebf5d',
     backgroundColor: 'white',
   },
+  placeholderStyle: {
+    paddingHorizontal: 10, // Add your desired padding here
+  },
+  itemStyle: {
+    justifyContent: 'flex-start',
+  },
+  dropDown: {
+    backgroundColor: 'white',
+  },
+  nativeIconStyle: {
+    display: 'none',
+  },
+  webIconStyle: {
+    display: 'none', // Override the icon style for web platforms
+  },
+  hiddenIcon: {
+    display: 'none',
+  },
+
 });

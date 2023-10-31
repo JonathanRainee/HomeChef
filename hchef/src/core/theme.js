@@ -8,5 +8,7 @@ export const theme = {
     primary: '#4ebf5d',
     secondary: '#414757',
     error: '#f13a59',
+    white: "ffffff",
+    black: "000000"
   },
 }

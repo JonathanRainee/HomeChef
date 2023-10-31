@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
   },
   section: {
     position: 'sticky',
-    bottom: 15,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     backgroundColor: 'white',
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: '#4ebf5d',
     padding: 10,
-    margin: 10,
+    margin: 5,
     borderRadius: 10,
     alignItems: 'center',
   },

@@ -1,50 +1,44 @@
+import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, View, ScrollView, Text, Image, TextInput, Button, StyleSheet, Animated, Easing } from 'react-native'
-import { FIREBASE_AUTH } from '../../firebase';
-import { FIREBASE_DB } from '../../firebase';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc, where } from 'firebase/firestore';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CartComponent } from '../components/CartComponent';
+import { BoughtFoodComponent } from '../components/BoughtFoodComponent';
 
-export const Cart = () => {
+export const MyOrder = () => {
 
   const [ cart ,setCart ] = useState([])
-  const [ total, setTotal ] = useState(0)
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
   const navigation = useNavigation();
 
+  useEffect(()=>{
+    const ref = collection(db, 'users', currUser.uid, 'cart')
+    const q = query(ref, where('status', '==', 'checked out'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const arr = []
+      snapshot.docs.forEach((doc) => {
+        arr.push({
+          ...doc.data(),
+          id: doc.id,
+        });
+      });
+      setCart(arr);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [])
+
   const handleItemDelete = async (itemId, itemPrice) => {
     await deleteDoc(doc(FIREBASE_DB, 'users', currUser.uid, 'cart', itemId));
-    setTotal(total - itemPrice);
   };
 
   const goToCheckout = () => {
     navigation.navigate('Checkout')
   }
 
-  useEffect(()=>{
-    const ref = collection(FIREBASE_DB, 'users', currUser.uid, 'cart')
-    const q = query(ref, where('status', '==', 'inCart'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const arr = [];
-      let ttl = 0
-      snapshot.docs.forEach((doc) => {
-        arr.push({
-          ...doc.data(),
-          id: doc.id,
-        });
-        ttl +=  doc.data().price
-      });
-      setCart(arr);
-      setTotal(ttl)
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [])
-  
   if(cart.length == 0){
     return(
       <View style={styles.container}>
@@ -58,23 +52,12 @@ export const Cart = () => {
       <View style={styles.container}>
         <ScrollView>
           {cart.map((e) => {
-            return <CartComponent key={e.id} item={e} onDelete={handleItemDelete}/>;
+            return <BoughtFoodComponent key={e.id} item={e}/>;
           })}
         </ScrollView>
-        <View style={styles.section}>
-          <View style={styles.cartItems}>
-            <Text style={styles.totalText}>Your cart items: {cart.length}</Text>
-            <Text style={styles.totalText}>Your total: <Text style={styles.boldText}>Rp.{total}</Text></Text>
-          </View>
-          <TouchableOpacity style={styles.buttonStyle} onPress={goToCheckout
-          }>
-            <Text>Checkout</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     )
   }
-
 }
 
 const styles = StyleSheet.create({

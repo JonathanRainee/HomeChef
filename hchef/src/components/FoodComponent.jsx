@@ -15,7 +15,7 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc }) => {
     desc
   }
 
-  const navigation = useNavigation();
+  const navigation = useNavigation()
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
 
@@ -29,7 +29,8 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc }) => {
       name: name,
       price: 100*price,
       imageSource: imageSource,
-      status: 'inCart'
+      status: 'inCart',
+      description: desc
     })
   }
 

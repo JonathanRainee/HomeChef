@@ -4,11 +4,12 @@ import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc,
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { CheckoutComponent } from '../components/CheckoutComponent';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useNavigation } from '@react-navigation/native';
 
 export const Checkout = () => {
   const [selectedValue, setSelectedValue] = useState("default");
   const [open, setOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("default");
   const [items, setItems] = useState([
     {label: 'Cash', value: 'Cash'},
     {label: 'Credit', value: 'Credit'},
@@ -18,6 +19,7 @@ export const Checkout = () => {
   const [ cartID, setCartID ] = useState([])
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
+  const navigation = useNavigation();
 
   const getCart = async () => {
     const q = query(collection(db, 'users', currUser.uid, 'cart'));
@@ -42,9 +44,11 @@ export const Checkout = () => {
       cartID.forEach(async id => {
         const document = doc(db, 'users', currUser.uid, 'cart', id)
         await updateDoc(document, {
+          paymentMethod: paymentMethod,
           status: "checked out"
         })
-      });
+      })
+      navigation.navigate('home')
     }
   }
 

@@ -14,6 +14,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from './firebase'
 import { Detail } from './src/screens/Detail'
 import { Checkout } from './src/screens/Checkout'
+import { MyOrder } from './src/screens/MyOrder'
 
 const Stack = createStackNavigator()
 const ProtectedStack = createStackNavigator()
@@ -56,11 +57,11 @@ export default function App() {
                 <Stack.Screen name="StartScreen" component={StartScreen}/>
                 )
               }
-          {/* <Stack.Screen name="Dashboard" component={ProtectedLayout}/> */}
           <Stack.Screen name='detail' component={Detail} options={{title: 'Add', headerShown: true}}/>
           <Stack.Screen name='Checkout' component={Checkout} options={{title: 'Checkout', headerShown: true}}/>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="MyOrder" component={MyOrder} />
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}

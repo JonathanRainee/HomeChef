@@ -16,12 +16,13 @@ export const BoughtFoodComponent = ({ item }) => {
 
   return (
     <View style={styles.cardContainer}>
-      <TouchableOpacity>
+      <TouchableOpacity style={styles.itemContiner}>
         <Image source={imageSource} style={styles.image} />
         <View style={styles.textContainer}>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.price}>{description}</Text>
         </View>
+
       </TouchableOpacity>
     </View>
   )
@@ -29,11 +30,15 @@ export const BoughtFoodComponent = ({ item }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
+    borderRadius: 8,
+    margin: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  itemContiner:{
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
   },
   image: {
     width: 80,

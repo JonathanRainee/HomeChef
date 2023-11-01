@@ -29,6 +29,7 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc }) => {
       name: name,
       price: 100*price,
       imageSource: imageSource,
+      status: 'inCart'
     })
   }
 

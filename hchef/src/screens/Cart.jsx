@@ -3,7 +3,7 @@ import { TouchableOpacity, View, ScrollView, Text, Image, TextInput, Button, Sty
 import { FIREBASE_AUTH } from '../../firebase';
 import { FIREBASE_DB } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc, where } from 'firebase/firestore';
 import { CartComponent } from '../components/CartComponent';
 
 export const Cart = () => {
@@ -24,7 +24,8 @@ export const Cart = () => {
   }
 
   useEffect(()=>{
-    const q = query(collection(FIREBASE_DB, 'users', currUser.uid, 'cart'));
+    const ref = collection(FIREBASE_DB, 'users', currUser.uid, 'cart')
+    const q = query(ref, where('status', '==', 'inCart'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const arr = [];
       let ttl = 0

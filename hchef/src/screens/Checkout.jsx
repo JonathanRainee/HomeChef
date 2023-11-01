@@ -1,32 +1,57 @@
 import React, { useEffect, useState } from 'react'
 import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase'
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore';
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { CheckoutComponent } from '../components/CheckoutComponent';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export const Checkout = () => {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState("default");
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const [items, setItems] = useState([
     {label: 'Cash', value: 'Cash'},
     {label: 'Credit', value: 'Credit'},
     {label: 'OVO', value: 'OVO'},
   ]);
   const [ cart ,setCart ] = useState([])
+  const [ cartID, setCartID ] = useState([])
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
 
   const getCart = async () => {
-    const q = query(collection(FIREBASE_DB, 'users', currUser.uid, 'cart'));
+    const q = query(collection(db, 'users', currUser.uid, 'cart'));
     let res = await getDocs(q)
     let arr = []
+    let cartID = []
     res.forEach((e) => {
       arr.push(e)
+      cartID.push(e.id)
     })
+    setCartID(cartID)
     setCart(arr)
   }
+
+  const checkoutCart = async () => {
+    console.log("asdfa");
+    console.log(paymentMethod);
+    if(paymentMethod == "default"){
+      alert("please choose a payment method");
+    }else{
+      console.log("hehe");
+      cartID.forEach(async id => {
+        const document = doc(db, 'users', currUser.uid, 'cart', id)
+        await updateDoc(document, {
+          status: "checked out"
+        })
+      });
+    }
+  }
+
+  const handleValueChange = (itemValue) => {
+    setSelectedValue(itemValue);
+    setPaymentMethod(itemValue)
+  };
 
   useEffect(()=>{
     getCart()
@@ -42,11 +67,11 @@ export const Checkout = () => {
       <View style={styles.ddContainer}>
         <DropDownPicker
           open={open}
-          value={value}
+          value={paymentMethod}
           items={items}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
-          setValue={setValue}
+          setValue={setPaymentMethod}
           setItems={setItems}
           defaultValue={selectedValue}
           ArrowDownIconComponent={({ setAllFalse }) => <></>}
@@ -59,11 +84,11 @@ export const Checkout = () => {
           placeholderStyle={styles.placeholderStyle}
           itemStyle={styles.itemStyle}
           dropDownStyle={styles.dropDown}
-          onChangeItem={(item) => setSelectedValue(item.value)}
+          onChangeItem={(e) => handleValueChange(e.value)}
         />
       </View>
       <View style={styles.section}>
-        <TouchableOpacity style={styles.buttonStyle}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={()=>checkoutCart()}>
           <Text style={styles.buttonText}>Checkout</Text>
         </TouchableOpacity>
       </View>

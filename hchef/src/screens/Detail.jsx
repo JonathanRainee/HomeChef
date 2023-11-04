@@ -84,7 +84,7 @@ export const Detail = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Center horizontally
+    justifyContent: 'center', 
     alignItems: 'center',
     padding: 16,
   },

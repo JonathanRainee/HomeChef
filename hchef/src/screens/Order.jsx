@@ -11,6 +11,5 @@ export const Order = ({navigation}) => {
         </Text>
       </TouchableOpacity>
     </View>
-    // todo list checkout n checliut page
   )
 }

@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   placeholderStyle: {
-    paddingHorizontal: 10, // Add your desired padding here
+    paddingHorizontal: 10,
   },
   itemStyle: {
     justifyContent: 'flex-start',
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     display: 'none',
   },
   webIconStyle: {
-    display: 'none', // Override the icon style for web platforms
+    display: 'none', 
   },
   hiddenIcon: {
     display: 'none',

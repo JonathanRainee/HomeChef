@@ -15,6 +15,7 @@ import { FIREBASE_AUTH } from './firebase'
 import { Detail } from './src/screens/Detail'
 import { Checkout } from './src/screens/Checkout'
 import { MyOrder } from './src/screens/MyOrder'
+import { Guide } from './src/screens/Guide'
 
 const Stack = createStackNavigator()
 const ProtectedStack = createStackNavigator()
@@ -57,6 +58,7 @@ export default function App() {
                 <Stack.Screen name="StartScreen" component={StartScreen}/>
                 )
               }
+          <Stack.Screen name='guide' component={Guide} options={{title: 'Back', headerShown: true}}/>
           <Stack.Screen name='detail' component={Detail} options={{title: 'Add', headerShown: true}}/>
           <Stack.Screen name='Checkout' component={Checkout} options={{title: 'Checkout', headerShown: true}}/>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />

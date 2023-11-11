@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text, Image, TextInput, Button, StyleSheet, Ani
 import { FIREBASE_AUTH } from '../../firebase';
 import { FIREBASE_DB } from '../../firebase';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { theme } from '../core/theme';
 
 
 export const Detail = ({ route, navigation }) => {
@@ -65,19 +66,25 @@ export const Detail = ({ route, navigation }) => {
 
         <View style={styles.quantityContainer}>
           <Text style={styles.quantityLabel}>Quantity:</Text>
-          <Button style={styles.btn} title="-" onPress={handleDecrement} />
+          <TouchableOpacity style={styles.btn} onPress={handleDecrement} >
+            <Text>-</Text>
+          </TouchableOpacity>
           <TextInput
             style={styles.quantityInput}
             value={quantity.toString()}
             onChangeText={(text) => setQuantity(parseInt(text, 10) || 0)}
           />
-          <Button style={styles.btn} title="+" onPress={handleIncrement} />
+          <TouchableOpacity style={styles.btn} title="+" onPress={handleIncrement}>
+            <Text>+</Text>
+          </TouchableOpacity>
         </View>
-        <Button
+        <TouchableOpacity
           title="Add to Cart"
           onPress={() => {addToCart()}}
           style={styles.addButton}
-        />
+        >
+          <Text>Add to cart</Text>
+        </TouchableOpacity>
       </Animated.View>
     </View>
   )
@@ -93,12 +100,13 @@ const styles = StyleSheet.create({
   },
   viewContainer:{
     flex: 1,
+    width: '100%',
     justifyContent: 'center', 
     alignItems: 'center',
   },
   image: {
-    height: '200px',
-    width: '200px', // Use a percentage of the container width
+    height: '250px',
+    width: '250px', // Use a percentage of the container width
     // aspectRatio: 1,
     borderRadius: 10,
   },
@@ -139,10 +147,24 @@ const styles = StyleSheet.create({
   },
   btn:{
     width: 25,
-    height: 10,
-    paddingHorizontal: 5
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 20,
+    paddingHorizontal: 5,
+    backgroundColor: '#4ebf5d',
+    borderRadius: 5
   },
   addButton: {
+    color: 'black',
+    width: '100%',
+    height: 30,
     marginVertical: 20,
+    color: "#000000",
+    backgroundColor: '#4ebf5d',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 20,
   },
 });

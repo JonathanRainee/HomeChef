@@ -16,7 +16,7 @@ export const MyOrder = () => {
   useEffect(()=>{
     const ref = collection(db, 'users', currUser.uid, 'cart')
     const q = query(ref, where('status', '==', 'checked out'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(ref, (snapshot) => {
       const arr = []
       snapshot.docs.forEach((doc) => {
         arr.push({

@@ -1,28 +1,43 @@
 import { deleteDoc, doc } from 'firebase/firestore';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FIREBASE_DB } from '../../firebase';
 import { FIREBASE_AUTH } from '../../firebase';
+import { useNavigation } from '@react-navigation/native';
 
 export const BoughtFoodComponent = ({ item }) => {
   
+  const [bgColor, setbgColor] = useState("white")
   const { name, price, quantity, imageSource, id, description } = item
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
+  
+  const navigation = useNavigation()
+
+  const goToGuide = () => {
+    navigation.navigate('guide', { item })
+  }
 
   const handleDelete = () => {
     onDelete(id, price);
   };
 
+  useEffect(()=>{
+    if(item.status == "Processed"){
+      setbgColor("#4ebf5d");
+    }else{
+      setbgColor("white")
+    }
+  }, [])
+
   return (
-    <View style={styles.cardContainer}>
-      <TouchableOpacity style={styles.itemContiner}>
+    <View style={[styles.cardContainer, {backgroundColor: bgColor}]}>
+      <TouchableOpacity style={styles.itemContiner} onPress={goToGuide}>
         <Image source={imageSource} style={styles.image} />
         <View style={styles.textContainer}>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.price}>{description}</Text>
         </View>
-
       </TouchableOpacity>
     </View>
   )

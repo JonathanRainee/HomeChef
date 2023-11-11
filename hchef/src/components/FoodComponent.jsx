@@ -5,14 +5,16 @@ import { FIREBASE_AUTH } from '../../firebase';
 import { FIREBASE_DB } from '../../firebase';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
-const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc }) => {
+const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc, ingridients, instructions }) => {
 
   const data = {
     name,
     price, 
     imageSource,
     id,
-    desc
+    desc,
+    ingridients,
+    instructions
   }
 
   const navigation = useNavigation()
@@ -30,7 +32,9 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc }) => {
       price: 100*price,
       imageSource: imageSource,
       status: 'inCart',
-      description: desc
+      description: desc,
+      ingridients : ingridients,
+      instructions : instructions
     })
   }
 

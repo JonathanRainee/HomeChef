@@ -35,13 +35,14 @@ export const Detail = ({ route, navigation }) => {
   };
 
   const addToCart = async () => {
-    console.log(currUser.uid);
     await addDoc(collection(db, 'users', currUser.uid, 'cart'), {
       quantity: quantity,
       name: data.data.name,
       price: quantity*data.data.price,
       imageSource: data.data.imageSource,
       description: data.data.desc,
+      ingridients: data.data.ingridients,
+      instructions: data.data.instructions,
       status: 'inCart'
     })
     navigation.navigate('home')
@@ -54,11 +55,13 @@ export const Detail = ({ route, navigation }) => {
 
   return ( 
     <View style={styles.container}>
-      <Animated.View style={{ opacity: fadeAnim }}>
-        <Image source={data.data.imageSource} style={styles.image} />
-        <Text style={styles.title}>{data.data.name}</Text>
-        <Text style={styles.description}>{data.data.desc}</Text>
-        <Text style={styles.price}>Rp{data.data.price}/g</Text>
+      <Animated.View style={[{ opacity: fadeAnim}]}>
+        <View style={styles.viewContainer}>
+          <Image source={data.data.imageSource} style={styles.image} />
+          <Text style={styles.title}>{data.data.name}</Text>
+          <Text style={styles.description}>{data.data.desc}</Text>
+          <Text style={styles.price}>Rp{data.data.price}/g</Text>
+        </View>
 
         <View style={styles.quantityContainer}>
           <Text style={styles.quantityLabel}>Quantity:</Text>
@@ -86,22 +89,31 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center', 
     alignItems: 'center',
-    padding: 16,
+    // padding: 16,
+  },
+  viewContainer:{
+    flex: 1,
+    justifyContent: 'center', 
+    alignItems: 'center',
   },
   image: {
-    width: 200,
-    height: 200,
+    height: '200px',
+    width: '200px', // Use a percentage of the container width
+    // aspectRatio: 1,
     borderRadius: 10,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+    maxWidth: '80%',
     marginVertical: 10,
   },
   description: {
     fontSize: 16,
+    justifyContent: 'center',
     textAlign: 'center',
+    maxWidth: '80%',
     marginVertical: 10,
   },
   price: {
@@ -112,6 +124,7 @@ const styles = StyleSheet.create({
   },
   quantityContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
   },

@@ -36,7 +36,7 @@ export default function Home({ navigation }) {
       {
         food.map((f)=>{
           return(
-            <FoodComponent key={f.id} id={f.id} name={f.data().name} price={f.data().price} imageSource={f.data().image} desc={f.data().description} />
+            <FoodComponent key={f.id} id={f.id} name={f.data().name} price={f.data().price} imageSource={f.data().image} desc={f.data().description} ingridients={f.data().ingridients} instructions={f.data().instructions} />
           )
         })
       }

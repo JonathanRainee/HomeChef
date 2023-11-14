@@ -15,7 +15,12 @@ export const BoughtFoodComponent = ({ item }) => {
   const navigation = useNavigation()
 
   const goToGuide = () => {
-    navigation.navigate('guide', { item })
+    if(item.status == "Delivered"){
+      navigation.navigate('guide', { item })
+    }else{
+      console.log(item.status);
+      navigation.navigate('status', { productName:name, status:item.status })
+    }
   }
 
   const handleDelete = () => {
@@ -23,10 +28,12 @@ export const BoughtFoodComponent = ({ item }) => {
   };
 
   useEffect(()=>{
-    if(item.status == "Processed"){
+    if(item.status == "Delivered"){
       setbgColor("#4ebf5d");
-    }else{
+    }else if(item.status == "Processed"){
       setbgColor("white")
+    }else if(item.status == "On Delivery"){
+      setbgColor("#f7ce5e")
     }
   }, [])
 

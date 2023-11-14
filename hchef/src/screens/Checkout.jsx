@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase'
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { CheckoutComponent } from '../components/CheckoutComponent';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -22,7 +22,8 @@ export const Checkout = () => {
   const navigation = useNavigation();
 
   const getCart = async () => {
-    const q = query(collection(db, 'users', currUser.uid, 'cart'));
+    const ref = query(collection(db, 'users', currUser.uid, 'cart'));
+    const q = query(ref, where('status', '==', 'inCart'),);
     let res = await getDocs(q)
     let arr = []
     let cartID = []
@@ -35,17 +36,14 @@ export const Checkout = () => {
   }
 
   const checkoutCart = async () => {
-    console.log("asdfa");
-    console.log(paymentMethod);
     if(paymentMethod == "default"){
       alert("please choose a payment method");
     }else{
-      console.log("hehe");
       cartID.forEach(async id => {
-        const document = doc(db, 'users', currUser.uid, 'cart', id)
-        await updateDoc(document, {
+        const ref = doc(db, 'users', currUser.uid, 'cart', id)
+        await updateDoc(ref, {
           paymentMethod: paymentMethod,
-          status: "checked out"
+          status: "Processed"
         })
       })
       navigation.navigate('home')

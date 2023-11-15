@@ -4,7 +4,7 @@ import Logo from '../components/Logo'
 import Header from '../components/Header'
 import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
-import { NavigationProp } from '@react-navigation/native'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { FIREBASE_AUTH } from '../../firebase'
 import FoodComponent  from '../components/FoodComponent'
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native'
@@ -14,6 +14,7 @@ import { FIREBASE_DB } from '../../firebase'
 export default function Home({ navigation }) {
 
   const [food, setfood] = useState([])
+  const nav = useNavigation();
 
   const getAllFood = async () => {
     const q = query(collection(FIREBASE_DB, 'Foods'))
@@ -23,6 +24,10 @@ export default function Home({ navigation }) {
       arr.push(e)
     })
     setfood(arr)
+  }
+
+  const goToSearch = () => {
+    nav.navigate('search')
   }
 
   useEffect(() => {
@@ -43,7 +48,7 @@ export default function Home({ navigation }) {
         }
       </ScrollView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.buttonContainer} onPress={goToSearch}>
             <Image style={styles.imageStyle} source={require('../assets/delete.png')}/>
           </TouchableOpacity>
         </View>

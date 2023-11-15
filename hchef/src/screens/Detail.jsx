@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center', 
     alignItems: 'center',
-    // padding: 16,
   },
   viewContainer:{
     flex: 1,
@@ -106,8 +105,6 @@ const styles = StyleSheet.create({
   },
   image: {
     height: '250px',
-    width: '250px', // Use a percentage of the container width
-    // aspectRatio: 1,
     borderRadius: 10,
   },
   title: {

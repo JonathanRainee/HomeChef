@@ -49,7 +49,7 @@ export default function Home({ navigation }) {
       </ScrollView>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.buttonContainer} onPress={goToSearch}>
-            <Image style={styles.imageStyle} source={require('../assets/delete.png')}/>
+            <Image style={styles.imageStyle} source={require('../assets/search.jpg')}/>
           </TouchableOpacity>
         </View>
     </View>
@@ -74,6 +74,8 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       right: 30,
       bottom: 30,
+      borderRadius: 25,
+      backgroundColor: 'white'
   },
   imageStyle: {
     width: 30, 

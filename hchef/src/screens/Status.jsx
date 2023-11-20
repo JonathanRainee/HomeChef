@@ -5,10 +5,8 @@ export const Status = ({ route }) => {
 
   const { productName, status } = route.params;
   const [stat, setstat] = useState("")
-  console.log(productName, status);
   
   useEffect(() => {
-    console.log(status);
     if(status == "Processed"){
       setstat(`Your Order for ${productName} is being processed`)
     }else if(status == "On Delivery"){

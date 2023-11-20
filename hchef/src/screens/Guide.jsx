@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 
 export const Guide = ({ route }) => {
-  const { item } = route.params; // Assuming 'item' is passed as a parameter
+  const { item } = route.params;
 
   return (
     <ScrollView style={styles.container}>

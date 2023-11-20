@@ -18,7 +18,6 @@ export const BoughtFoodComponent = ({ item }) => {
     if(item.status == "Delivered"){
       navigation.navigate('guide', { item })
     }else{
-      console.log(item.status);
       navigation.navigate('status', { productName:name, status:item.status })
     }
   }

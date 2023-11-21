@@ -18,6 +18,7 @@ import { MyOrder } from './src/screens/MyOrder'
 import { Guide } from './src/screens/Guide'
 import { Status } from './src/screens/Status'
 import { Search } from './src/screens/Search'
+import { UserContext } from './src/context/UserContext'
 
 const Stack = createStackNavigator()
 const ProtectedStack = createStackNavigator()
@@ -47,32 +48,31 @@ export default function App() {
   return (
     <Provider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={user ? 'Dashboard' : 'StartScreen'}
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          {
-            user ? (
-              <Stack.Screen name="Dashboard" component={ProtectedLayout}/>
+        {/* <UserContext.Provider value={{user}}> */}
+          <Stack.Navigator
+            initialRouteName={user ? 'Dashboard' : 'StartScreen'}
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            {
+              user ? (
+                <Stack.Screen name="Dashboard" component={ProtectedLayout}/>
               ) : (
                 <Stack.Screen name="StartScreen" component={StartScreen}/>
-                )
-              }
-          <Stack.Screen name='search' component={Search} options={{title: 'Back', headerShown: true}}/>
-          <Stack.Screen name='status' component={Status} options={{title: 'Back', headerShown: true}}/>
-          <Stack.Screen name='guide' component={Guide} options={{title: 'Back', headerShown: true}}/>
-          <Stack.Screen name='detail' component={Detail} options={{title: 'Add', headerShown: true}}/>
-          <Stack.Screen name='Checkout' component={Checkout} options={{title: 'Checkout', headerShown: true}}/>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="MyOrder" component={MyOrder} />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
-        </Stack.Navigator>
+              )
+            }
+              <Stack.Screen name='search' component={Search} options={{title: 'Back', headerShown: true}}/>
+              <Stack.Screen name='status' component={Status} options={{title: 'Back', headerShown: true}}/>
+              <Stack.Screen name='guide' component={Guide} options={{title: 'Back', headerShown: true}}/>
+              <Stack.Screen name='detail' component={Detail} options={{title: 'Add', headerShown: true}}/>
+              <Stack.Screen name='Checkout' component={Checkout} options={{title: 'Checkout', headerShown: true}}/>
+              <Stack.Screen name="LoginScreen" component={LoginScreen} />
+              <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+              <Stack.Screen name="MyOrder" component={MyOrder} />
+              <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen}/>
+          </Stack.Navigator>
+        {/* </UserContext.Provider> */}
       </NavigationContainer>
     </Provider>
   )

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FIREBASE_AUTH } from '../../firebase';
 import { FIREBASE_DB } from '../../firebase';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { useCurrentUser } from '../context/UserContext';
 
 const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc, ingridients, instructions }) => {
 
@@ -20,15 +21,26 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc, ingrid
   const navigation = useNavigation()
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
-
+  
   const goToDetail = () => {
     navigation.navigate('detail', { data })
   }
+  
+  const userDocRef = doc(db, 'users', currUser.uid)
+  const [currentUser, setCurrentUser] = useState()
+  const getUserData = async () => {
+    if (currUser) {
+      const userDocSnapshot = await getDoc(userDocRef);
+      setCurrentUser(userDocSnapshot.data());
+    }
+  };
 
+  useEffect(() => {
+    getUserData();
+  }, [currUser]);
+  
   const addToCart = async () => {
-    console.log(currUser);
-    console.log(currUser.alreadySetProfile);
-    if(currUser.alreadySetProfile == false){
+    if(currentUser.alreadySetProfile == false){
       alert("please set your profile first")
     }else{
       await addDoc(collection(db, 'users', currUser.uid, 'cart'), {

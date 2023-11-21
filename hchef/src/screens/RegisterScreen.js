@@ -11,8 +11,10 @@ import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
+import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { FIREBASE_AUTH } from '../../firebase'
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase'
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -20,6 +22,8 @@ export default function RegisterScreen({ navigation }) {
   const [password, setPassword] = useState({ value: '', error: '' })
   const [loading, setloading] = useState(false)
   const auth = FIREBASE_AUTH
+  const db = FIREBASE_DB
+  const nav = useNavigation()
 
   const onSignUpPressed = async () => {
     const nameError = nameValidator(name.value)
@@ -35,7 +39,17 @@ export default function RegisterScreen({ navigation }) {
     setloading(true)
     try {
       const resp = await createUserWithEmailAndPassword(auth, email.value, password.value)
+      const uid = resp.user.uid
+
+      await setDoc(doc(db, "users", uid), {
+        username: name.value,
+        email: email.value,
+        alreadySetProfile: false
+      });
+
+
       alert('Registered succesfully')
+      navigation.navigate('LoginScreen')
     } catch (error) {
       alert('Login failed: '+error.message)
     } finally {

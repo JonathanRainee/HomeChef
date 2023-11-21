@@ -26,16 +26,22 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc, ingrid
   }
 
   const addToCart = async () => {
-    await addDoc(collection(db, 'users', currUser.uid, 'cart'), {
-      quantity: 100,
-      name: name,
-      price: 100*price,
-      imageSource: imageSource,
-      status: 'inCart',
-      description: desc,
-      ingridients : ingridients,
-      instructions : instructions
-    })
+    console.log(currUser);
+    console.log(currUser.alreadySetProfile);
+    if(currUser.alreadySetProfile == false){
+      alert("please set your profile first")
+    }else{
+      await addDoc(collection(db, 'users', currUser.uid, 'cart'), {
+        quantity: 100,
+        name: name,
+        price: 100*price,
+        imageSource: imageSource,
+        status: 'inCart',
+        description: desc,
+        ingridients : ingridients,
+        instructions : instructions
+      })
+    }
   }
 
   return (

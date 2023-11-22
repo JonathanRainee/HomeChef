@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { TouchableOpacity, View, Text, Image, TextInput, Button, StyleSheet, Animated, Easing } from 'react-native'
 import { FIREBASE_AUTH } from '../../firebase';
 import { FIREBASE_DB } from '../../firebase';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { theme } from '../core/theme';
 
 
@@ -13,6 +13,8 @@ export const Detail = ({ route, navigation }) => {
   const currUser = FIREBASE_AUTH.currentUser
   const db = FIREBASE_DB
   const data = route.params
+
+  console.log(data.data);
 
   const handleIncrement = () => {
     setQuantity(quantity + 100);
@@ -35,18 +37,36 @@ export const Detail = ({ route, navigation }) => {
     }).start();
   };
 
+  const userDocRef = doc(db, 'users', currUser.uid)
+  const [currentUser, setCurrentUser] = useState()
+  const getUserData = async () => {
+    if (currUser) {
+      const userDocSnapshot = await getDoc(userDocRef);
+      const userData = userDocSnapshot.data();
+      setCurrentUser(userData); 
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, [currUser]);
+
   const addToCart = async () => {
-    await addDoc(collection(db, 'users', currUser.uid, 'cart'), {
-      quantity: quantity,
-      name: data.data.name,
-      price: quantity*data.data.price,
-      imageSource: data.data.imageSource,
-      description: data.data.desc,
-      ingridients: data.data.ingridients,
-      instructions: data.data.instructions,
-      status: 'inCart'
-    })
-    navigation.navigate('home')
+    if(currentUser.alreadySetProfile == false){
+      alert("please set your profile first")
+    }else{
+      await addDoc(collection(db, 'users', currUser.uid, 'cart'), {
+        quantity: quantity,
+        name: data.data.name,
+        price: quantity*data.data.price,
+        imageSource: data.data.imageSource,
+        description: data.data.desc,
+        ingridients: data.data.ingridients,
+        instructions: data.data.instructions,
+        status: 'inCart'
+      })
+      navigation.navigate('home')
+    }
   }
   
   useEffect(()=>{
@@ -65,26 +85,30 @@ export const Detail = ({ route, navigation }) => {
         </View>
 
         <View style={styles.quantityContainer}>
-          <Text style={styles.quantityLabel}>Quantity:</Text>
-          <TouchableOpacity style={styles.btn} onPress={handleDecrement} >
-            <Text>-</Text>
-          </TouchableOpacity>
-          <TextInput
-            style={styles.quantityInput}
-            value={quantity.toString()}
-            onChangeText={(text) => setQuantity(parseInt(text, 10) || 0)}
-          />
-          <TouchableOpacity style={styles.btn} title="+" onPress={handleIncrement}>
-            <Text>+</Text>
-          </TouchableOpacity>
+          <View style={styles.quantityContainer2}>
+            <Text style={styles.quantityLabel}>Quantity:</Text>
+            <TouchableOpacity style={styles.btn} onPress={handleDecrement} >
+              <Text>-</Text>
+            </TouchableOpacity>
+            <TextInput
+              style={styles.quantityInput}
+              value={quantity.toString()}
+              onChangeText={(text) => setQuantity(parseInt(text, 10) || 0)}
+            />
+            <TouchableOpacity style={styles.btn} title="+" onPress={handleIncrement}>
+              <Text>+</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.quantityContainer2}>
+            <TouchableOpacity
+              title="Add to Cart"
+              onPress={() => {addToCart()}}
+              style={styles.addButton}
+            >
+              <Text style={styles.addToCartButtonText}>Add to cart</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <TouchableOpacity
-          title="Add to Cart"
-          onPress={() => {addToCart()}}
-          style={styles.addButton}
-        >
-          <Text>Add to cart</Text>
-        </TouchableOpacity>
       </Animated.View>
     </View>
   )
@@ -104,7 +128,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    height: '250px',
+    height: 300,
+    width: 300,
     borderRadius: 10,
   },
   title: {
@@ -128,6 +153,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   quantityContainer: {
+    flexDirection: 'collumn',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  quantityContainer2: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -153,15 +184,18 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   addButton: {
-    color: 'black',
-    width: '100%',
-    height: 30,
-    marginVertical: 20,
-    color: "#000000",
-    backgroundColor: '#4ebf5d',
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 20,
+  width: 250,
+  height: 40,
+  marginVertical: 20,
+  color: "#000000",
+  backgroundColor: '#4ebf5d',
+  borderRadius: 5,
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontSize: 20,
+  },
+  addToCartButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

@@ -38,9 +38,6 @@ export default function Dashboard({ navigation }) {
         <TouchableOpacity onPress={() => handleTabPress('MyOrder')} style={[styles.tab, activeTab === 'MyOrder' ? styles.activeTab : null]}>
           <Text style={activeTab === 'MyOrder' ? styles.activeTabText : styles.tabText}>My Order</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleTabPress('Profile')} style={[styles.tab, activeTab === 'Profile' ? styles.activeTab : null]}>
-          <Text style={activeTab === 'Profile' ? styles.activeTabText : styles.tabText}>Profile</Text>
-        </TouchableOpacity>
       </View>
     );
   };

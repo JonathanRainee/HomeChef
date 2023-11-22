@@ -29,7 +29,6 @@ export const MyOrder = () => {
       setCurrentUser(userData); 
     }
   };
-  
 
   useEffect(() => {
     getUserData();
@@ -63,7 +62,9 @@ export const MyOrder = () => {
   };
 
   const goToEditProfile = () => {
+    navigation.navigate('editProfile', {currentUser});
   };
+  console.log(currentUser);
 
   if (cart.length === 0) {
     return (
@@ -80,11 +81,16 @@ export const MyOrder = () => {
           <View>
             <Text>Name: {currentUser.username}</Text>
             <Text>Email: {currentUser.email}</Text>
-            <Text>Address: {currentUser.address}</Text>
+            <Text>Address: {currentUser.address != "" ? currentUser.address : "not set yet"}</Text>
           </View>
-          <TouchableOpacity onPress={goToEditProfile}>
-            <MaterialIcons name="edit" size={24} color="black" />
-          </TouchableOpacity>
+          <View style={styles.iconContainer}>
+            <TouchableOpacity onPress={goToEditProfile} style={{marginBottom: 10}}>
+              <MaterialIcons name="edit" size={24} color="black"/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => FIREBASE_AUTH.signOut()}>
+              <MaterialIcons name="logout" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <ScrollView>
@@ -110,8 +116,12 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#eee',
     flexDirection: 'row',
-    justifyContent: 'space-between', // Align children at the beginning and end of the cross axis
-    alignItems: 'center', // Align children in the center of the cross axis
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  iconContainer: {
+    flexDirection: 'collumn',
+    marginBottom: 10,
   },
   section: {
     position: 'sticky',
@@ -139,4 +149,5 @@ const styles = StyleSheet.create({
   boldText: {
     fontWeight: 'bold',
   },
+  
 });

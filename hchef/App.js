@@ -19,6 +19,7 @@ import { Guide } from './src/screens/Guide'
 import { Status } from './src/screens/Status'
 import { Search } from './src/screens/Search'
 import { UserContext } from './src/context/UserContext'
+import { EditProfile } from './src/screens/EditProfile'
 
 const Stack = createStackNavigator()
 const ProtectedStack = createStackNavigator()
@@ -62,6 +63,8 @@ export default function App() {
                 <Stack.Screen name="StartScreen" component={StartScreen}/>
               )
             }
+
+              <Stack.Screen name='editProfile' component={EditProfile} options={{title: 'Back', headerShown: true}}/>
               <Stack.Screen name='search' component={Search} options={{title: 'Back', headerShown: true}}/>
               <Stack.Screen name='status' component={Status} options={{title: 'Back', headerShown: true}}/>
               <Stack.Screen name='guide' component={Guide} options={{title: 'Back', headerShown: true}}/>

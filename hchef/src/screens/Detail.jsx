@@ -14,7 +14,7 @@ export const Detail = ({ route, navigation }) => {
   const db = FIREBASE_DB
   const data = route.params
 
-  console.log(data.data);
+  
 
   const handleIncrement = () => {
     setQuantity(quantity + 100);
@@ -63,7 +63,9 @@ export const Detail = ({ route, navigation }) => {
         description: data.data.desc,
         ingridients: data.data.ingridients,
         instructions: data.data.instructions,
-        status: 'inCart'
+        status: 'inCart',
+        receiver: currentUser.username,
+        address: currentUser.address
       })
       navigation.navigate('home')
     }

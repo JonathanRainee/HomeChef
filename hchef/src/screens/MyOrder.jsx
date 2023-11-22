@@ -4,8 +4,6 @@ import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BoughtFoodComponent } from '../components/BoughtFoodComponent';
-
-// Import any necessary icons from a library or use a custom one
 import { MaterialIcons } from '@expo/vector-icons';
 
 export const MyOrder = () => {
@@ -64,7 +62,6 @@ export const MyOrder = () => {
   const goToEditProfile = () => {
     navigation.navigate('editProfile', {currentUser});
   };
-  console.log(currentUser);
 
   if (cart.length === 0) {
     return (

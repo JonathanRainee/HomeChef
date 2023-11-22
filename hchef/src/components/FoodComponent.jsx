@@ -51,7 +51,9 @@ const FoodComponent = ({ name, price, imageSource, onAddToCart, id, desc, ingrid
         status: 'inCart',
         description: desc,
         ingridients : ingridients,
-        instructions : instructions
+        instructions : instructions,
+        receiver: currentUser.username,
+        address: currentUser.address
       })
     }
   }

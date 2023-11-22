@@ -8,7 +8,7 @@ const UserContext = ({ children }) => {
   const DB = FIREBASE_DB;
   const currUser = FIREBASE_AUTH.currentUser;
 
-  const userDocRef = doc(DB, 'users', currUser?.uid); // Use currUser?.uid to handle the case where currUser might be undefined
+  const userDocRef = doc(DB, 'users', currUser?.uid);
   const [currentUser, setCurrentUser] = useState();
 
   const updateUser = (newUser) => {

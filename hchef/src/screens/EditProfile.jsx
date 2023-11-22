@@ -10,7 +10,6 @@ export const EditProfile = ({ route, navigation }) => {
 
   const [newName, setNewName] = useState(currentUser.username);
   const [newAddress, setNewAddress] = useState(currentUser.address);
-  console.log(currUser.uid);
   const handleUpdateProfile = async() => {
     const userDocRef = doc(db, 'users', currUser.uid);
 
